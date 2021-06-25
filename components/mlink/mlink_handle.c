@@ -885,7 +885,7 @@ static mdf_err_t mlink_sniffer_get_data(mlink_handle_data_t *handle_data)
 {
     mdf_err_t ret = MDF_OK;
 
-    handle_data->resp_fromat = MLINK_HTTPD_FORMAT_HEX;
+    handle_data->resp_format = MLINK_HTTPD_FORMAT_HEX;
     ret = mlink_sniffer_data((uint8_t **)&handle_data->resp_data, (size_t *)&handle_data->resp_size);
     MDF_ERROR_CHECK(ret != MDF_OK, ret, "get_sniffer_list, size: %d", handle_data->resp_size);
 
@@ -1014,10 +1014,10 @@ mdf_err_t mlink_handle(const uint8_t *src_addr, const mlink_httpd_type_t *type,
     mlink_handle_data_t handle_data = {
         .req_data    = data,
         .req_size    = size,
-        .req_fromat  = MLINK_HTTPD_FORMAT_JSON,
+        .req_format  = MLINK_HTTPD_FORMAT_JSON,
         .resp_data   = NULL,
         .resp_size   = 0,
-        .resp_fromat = MLINK_HTTPD_FORMAT_JSON,
+        .resp_format = MLINK_HTTPD_FORMAT_JSON,
     };
 
     MDF_ERROR_GOTO(type->format != MLINK_HTTPD_FORMAT_JSON, EXIT,
@@ -1050,13 +1050,13 @@ mdf_err_t mlink_handle(const uint8_t *src_addr, const mlink_httpd_type_t *type,
 EXIT:
 
     resp_type.sockfd = type->sockfd;
-    resp_type.format = handle_data.resp_fromat;
+    resp_type.format = handle_data.resp_format;
     resp_type.from   = MLINK_HTTPD_FROM_DEVICE;
     resp_type.resp   = (ret == MDF_OK) ? true : false;
     data_type.protocol = MLINK_PROTO_HTTPD;
     memcpy(&data_type.custom, &resp_type, sizeof(mlink_httpd_type_t));
 
-    if (handle_data.resp_fromat == MLINK_HTTPD_FORMAT_JSON) {
+    if (handle_data.resp_format == MLINK_HTTPD_FORMAT_JSON) {
         mlink_json_pack(&handle_data.resp_data, "status_msg", mdf_err_to_name(ret));
         handle_data.resp_size = mlink_json_pack(&handle_data.resp_data, "status_code", -ret);
     }

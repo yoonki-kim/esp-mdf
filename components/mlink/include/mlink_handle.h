@@ -53,10 +53,10 @@ typedef enum {
 typedef struct {
     const char *req_data;      /**< Received request data */
     ssize_t req_size;          /**< The length of the received request data */
-    mlink_httpd_format_t req_fromat; /**< The format of the received request data */
+    mlink_httpd_format_t req_format; /**< The format of the received request data */
     char *resp_data;           /**< Response data to be sent */
     ssize_t resp_size;         /**< The length of response data to be sent */
-    mlink_httpd_format_t resp_fromat; /**< The format of response data to be sent */
+    mlink_httpd_format_t resp_format; /**< The format of response data to be sent */
 } mlink_handle_data_t;
 
 /**
